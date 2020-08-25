@@ -1,0 +1,10 @@
+version: "3.0"
+
+services:
+  router:
+    build:
+      context: ./snmp_server
+
+  snmp_client:
+    image: xiaopeng163/net-box
+    command: sh -c "while true;do sleep 10;echo'test';done"

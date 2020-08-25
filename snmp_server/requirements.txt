@@ -1,0 +1,7 @@
+Jinja2==2.11.2
+MarkupSafe==1.1.1
+ply==3.11
+pyasn1==0.4.8
+pycryptodomex==3.9.8
+pysmi==0.3.4
+pysnmp==4.4.12
