@@ -4,7 +4,43 @@ services:
   router:
     build:
       context: ./snmp_server
+    restart: always
 
   snmp_client:
     image: xiaopeng163/net-box
     command: sh -c "while true;do sleep 10;echo'test';done"
+    volumes:
+      - mib-files:/usr/share/snmp/mibs/
+
+  telegraf:
+    image: telegraf:latest
+    restart: always
+    volumes:
+      - mib-files:/usr/share/snmp/mibs/
+      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
+    ports:
+      - 9126:9126
+    command: telegraf --config /etc/telegraf/telegraf.conf
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    command: --config.file=/etc/prometheus/prometheus.yml
+    restart: unless-stopped
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana-data:/var/lib/grafana/"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+volumes:
+  mib-files:
+  grafana-data:
