@@ -6,17 +6,12 @@ services:
       context: ./snmp_server
     restart: always
 
-  snmp_client:
-    image: xiaopeng163/net-box
-    command: sh -c "while true;do sleep 10;echo'test';done"
-    volumes:
-      - mib-files:/usr/share/snmp/mibs/
-
   telegraf:
     image: telegraf:latest
     restart: always
+    container_name: telegraf
     volumes:
-      - mib-files:/usr/share/snmp/mibs/
+      - ./telegraf/mibs/:/usr/share/snmp/mibs/
       - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
     ports:
       - 9126:9126
@@ -38,9 +33,6 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - grafana-data:/var/lib/grafana/"
+      - ./grafana:/var/lib/grafana/"
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
-volumes:
-  mib-files:
-  grafana-data:
