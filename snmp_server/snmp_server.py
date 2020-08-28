@@ -7,6 +7,7 @@ import logging
 import re
 import time
 import socket
+import random
 
 from pysnmp.entity import engine, config
 from pysnmp.entity.rfc3413 import cmdrsp, context
@@ -47,14 +48,18 @@ def createVariable(SuperClass, getValue, *args):
 class SNMPAgent(object):
     def __init__(self, host, port, rcommunity):
         self.snmpEngine = engine.SnmpEngine()
-        config.addSocketTransport(self.snmpEngine, udp.domainName, udp.UdpTransport().openServerMode((host, port)))
+        config.addSocketTransport(
+            self.snmpEngine, udp.domainName, udp.UdpTransport().openServerMode((host, port)))
         config.addV1System(self.snmpEngine, 'my-area', rcommunity)
-        config.addVacmUser(self.snmpEngine, 2, 'my-area', 'noAuthNoPriv', (1, 3, 6))
+        config.addVacmUser(self.snmpEngine, 2, 'my-area',
+                           'noAuthNoPriv', (1, 3, 6))
         config.addV3User(self.snmpEngine, 'test')
-        config.addVacmUser(self.snmpEngine, 3, 'test', 'noAuthNoPriv', (1, 3, 6))
+        config.addVacmUser(self.snmpEngine, 3, 'test',
+                           'noAuthNoPriv', (1, 3, 6))
         self.snmpContext = context.SnmpContext(self.snmpEngine)
         self.mibBuilder = self.snmpContext.getMibInstrum().getMibBuilder()
-        self.MibScalar, self.MibScalarInstance = self.mibBuilder.importSymbols('SNMPv2-SMI', 'MibScalar', 'MibScalarInstance')
+        self.MibScalar, self.MibScalarInstance = self.mibBuilder.importSymbols(
+            'SNMPv2-SMI', 'MibScalar', 'MibScalarInstance')
         cmdrsp.GetCommandResponder(self.snmpEngine, self.snmpContext)
         cmdrsp.NextCommandResponder(self.snmpEngine, self.snmpContext)
         cmdrsp.BulkCommandResponder(self.snmpEngine, self.snmpContext)
@@ -65,7 +70,8 @@ class SNMPAgent(object):
         self.mibBuilder.exportSymbols(
             '__MY_MIB',
             self.MibScalar(oid_num[:-1], oid_type),
-            createVariable(self.MibScalarInstance, getValue, oid_num[:-1], (oid_num[-1],), oid_type)
+            createVariable(self.MibScalarInstance, getValue,
+                           oid_num[:-1], (oid_num[-1],), oid_type)
         )
 
     def serve_forever(self):
@@ -81,14 +87,15 @@ class Simulator(object):
     def __init__(self, host, port, rcommunity):
         self.start_time = time.time()
         self.oid_dict = {}
-        self.snmp_agent = SNMPAgent(host=host, port=port, rcommunity=rcommunity)
+        self.snmp_agent = SNMPAgent(
+            host=host, port=port, rcommunity=rcommunity)
 
     def add_walkfile(self, path):
         file_loader = FileSystemLoader('.')
         # Load the enviroment
         env = Environment(loader=file_loader)
         template = env.get_template(path)
-        #Add the varibles
+        # Add the varibles
         file_text = template.render(sysname=socket.gethostname())
         log.info('loading SNMP walk file {}'.format(path))
         file_text = file_text.replace('\r', '')
@@ -108,7 +115,8 @@ class Simulator(object):
                 reg_line_match = reg_line.match(line)
                 oid, rest = reg_line_match.group(1), reg_line_match.group(2)
                 reg_value_match = reg_value.match(rest)
-                oid_type, oid_value = reg_value_match.group(1), reg_value_match.group(2)
+                oid_type, oid_value = reg_value_match.group(
+                    1), reg_value_match.group(2)
 
                 if oid_type in ('INTEGER', 'Gauge32', 'Gauge64', 'Counter32', 'Counter64'):
                     oid_value = int(oid_value)
@@ -133,9 +141,16 @@ class Simulator(object):
 
     def get_value(self, name, oid_):
         oid = '.'.join([str(i) for i in name])
-        oid_value, oid_type_str = self.oid_dict.get(oid, {}).get('value', 'Unknown value'), self.oid_dict.get(oid, {}).get('type', 'STRING')
+        oid_value, oid_type_str = self.oid_dict.get(oid, {}).get(
+            'value', 'Unknown value'), self.oid_dict.get(oid, {}).get('type', 'STRING')
         if oid == '1.3.6.1.2.1.1.3.0':
             oid_value = self.sysuptime()
+        # if oid == '1.3.6.1.2.1.2.1.10' or oid == '1.3.6.1.2.1.2.1.16.1':
+        if oid.startswith('1.3.6.1.2.1.2.2.1.16') or oid.startswith('1.3.6.1.2.1.2.2.1.10'):
+            # ifInOctets and ifOutOctets
+            self.oid_dict[oid]['value'] += random.randint(10000, 100000)
+            oid_value = self.oid_dict[oid]['value']
+
         log.debug('get %s [%s] %s %s' % (oid, oid_, oid_type_str, oid_value))
         return oid_value, oid_type_str
 
