@@ -14,7 +14,6 @@ from pysnmp.entity.rfc3413 import cmdrsp, context
 from pysnmp.carrier.asynsock.dgram import udp
 from pysnmp.proto.api import v2c
 from pysnmp.proto import rfc1902
-from jinja2 import Environment, FileSystemLoader
 
 log = logging.getLogger()
 
@@ -91,12 +90,9 @@ class Simulator(object):
             host=host, port=port, rcommunity=rcommunity)
 
     def add_walkfile(self, path):
-        file_loader = FileSystemLoader('.')
-        # Load the enviroment
-        env = Environment(loader=file_loader)
-        template = env.get_template(path)
-        # Add the varibles
-        file_text = template.render(sysname=socket.gethostname())
+        snmp_file = open(path)
+        file_text = snmp_file.read()
+        snmp_file.close()
         log.info('loading SNMP walk file {}'.format(path))
         file_text = file_text.replace('\r', '')
         file_lines = file_text.split('\n')
@@ -162,7 +158,7 @@ class Simulator(object):
 def main():
 
     simulator = Simulator(host='0.0.0.0', port=161, rcommunity='public')
-    simulator.add_walkfile('snmp_data.j2')
+    simulator.add_walkfile('snmpwalk')
     simulator.snmp_agent.serve_forever()
 
 

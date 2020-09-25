@@ -1,11 +1,11 @@
 version: "3.0"
 
 services:
-  router:
-    build:
-      context: ./snmp_server
+  cisco_router:
+    image: snmp_simulator:latest
+    volumes:
+      - ./snmp_simulator/data/snmpwalk_cisco_c2801:/app/snmpwalk
     restart: always
-
   telegraf:
     image: telegraf:latest
     restart: always
@@ -16,7 +16,6 @@ services:
     ports:
       - 9126:9126
     command: telegraf --config /etc/telegraf/telegraf.conf
-
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
