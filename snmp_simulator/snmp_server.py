@@ -142,11 +142,12 @@ class Simulator(object):
         if oid == '1.3.6.1.2.1.1.3.0':
             oid_value = self.sysuptime()
         # if oid == '1.3.6.1.2.1.2.1.10' or oid == '1.3.6.1.2.1.2.1.16.1':
-        if oid.startswith('1.3.6.1.2.1.2.2.1.16') or oid.startswith('1.3.6.1.2.1.2.2.1.10'):
+        elif oid.startswith('1.3.6.1.2.1.2.2.1.16') or oid.startswith('1.3.6.1.2.1.2.2.1.10'):
             # ifInOctets and ifOutOctets
             self.oid_dict[oid]['value'] += random.randint(1000000, 10000000)
             oid_value = self.oid_dict[oid]['value']
-
+        elif oid.startswith('1.3.6.1.2.1.1.5'):
+            oid_value = socket.gethostname()
         log.debug('get %s [%s] %s %s' % (oid, oid_, oid_type_str, oid_value))
         return oid_value, oid_type_str
 
