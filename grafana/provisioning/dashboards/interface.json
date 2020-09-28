@@ -15,8 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 1,
-  "iteration": 1598656316300,
+  "id": 3,
+  "iteration": 1601324067587,
   "links": [],
   "panels": [
     {
@@ -25,7 +25,8 @@
         "defaults": {
           "custom": {
             "align": null,
-            "displayMode": "color-background"
+            "displayMode": "color-background",
+            "filterable": false
           },
           "mappings": [
             {
@@ -63,7 +64,7 @@
       "options": {
         "showHeader": true
       },
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "7.2.0",
       "targets": [
         {
           "expr": "interface_ifAdminStatus{agent_host=~\"$hostname\"}",
@@ -164,13 +165,15 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "7.2.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeat": null,
-      "repeatIteration": 1598656316300,
+      "repeatIteration": 1601324067587,
       "repeatPanelId": 2,
       "scopedVars": {
         "interface": {
@@ -272,13 +275,15 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "7.2.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeat": null,
-      "repeatIteration": 1598656316300,
+      "repeatIteration": 1601324067587,
       "repeatPanelId": 2,
       "scopedVars": {
         "interface": {
@@ -380,8 +385,11 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "7.2.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -486,13 +494,15 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "7.2.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeat": null,
-      "repeatIteration": 1598656316300,
+      "repeatIteration": 1601324067587,
       "repeatPanelId": 2,
       "scopedVars": {
         "interface": {
@@ -594,13 +604,15 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "7.2.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeat": null,
-      "repeatIteration": 1598656316300,
+      "repeatIteration": 1601324067587,
       "repeatPanelId": 2,
       "scopedVars": {
         "interface": {
@@ -702,13 +714,15 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "7.2.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeat": null,
-      "repeatIteration": 1598656316300,
+      "repeatIteration": 1601324067587,
       "repeatPanelId": 2,
       "scopedVars": {
         "interface": {
@@ -810,13 +824,15 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "7.2.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeat": null,
-      "repeatIteration": 1598656316300,
+      "repeatIteration": 1601324067587,
       "repeatPanelId": 2,
       "scopedVars": {
         "interface": {
@@ -885,7 +901,7 @@
       }
     }
   ],
-  "refresh": "5m",
+  "refresh": "5s",
   "schemaVersion": 26,
   "style": "dark",
   "tags": [],
@@ -894,9 +910,9 @@
       {
         "allValue": null,
         "current": {
-          "selected": true,
-          "text": "cisco_router_1",
-          "value": "cisco_router_1"
+          "selected": false,
+          "text": "demo_cisco_router_1",
+          "value": "demo_cisco_router_1"
         },
         "datasource": "Prometheus",
         "definition": "label_values(agent_host)",
@@ -962,7 +978,7 @@
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {
@@ -980,7 +996,7 @@
     ]
   },
   "timezone": "",
-  "title": "Cisco",
-  "uid": "RQDyp3NMz",
-  "version": 4
+  "title": "Interfacea",
+  "uid": "RQDyp3NMa",
+  "version": 2
 }
