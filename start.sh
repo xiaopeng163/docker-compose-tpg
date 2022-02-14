@@ -4,7 +4,6 @@
 docker pull telegraf:latest
 docker pull prom/prometheus:latest
 docker pull grafana/grafana
-docker pull prom/node-exporter
 
 # build image
 cd snmp_simulator

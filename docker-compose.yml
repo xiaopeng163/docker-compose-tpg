@@ -36,24 +36,6 @@ services:
     ports:
       - 9126:9126
     command: telegraf --config /etc/telegraf/telegraf.conf
-  node-exporter:
-    image: prom/node-exporter
-    container_name: node-exporter
-    hostname: node-exporter
-    volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
-    command:
-      - "--path.procfs=/host/proc"
-      - "--path.sysfs=/host/sys"
-      - --collector.filesystem.ignored-mount-points
-      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
-    ports:
-      - 9100:9100
-    networks:
-      - back-tier
-    restart: always
 
   prometheus:
     image: prom/prometheus:latest
