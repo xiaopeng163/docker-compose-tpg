@@ -6,10 +6,9 @@ docker pull prom/prometheus:latest
 docker pull grafana/grafana
 
 # build image
-cd snmp_simulator
-docker build -t snmp_simulator .
+docker build -t snmp_simulator -f snmp_simulator/Dockerfile
+docker build -t json_exporter -f json_exporter/Dockerfile
 
-cd ..
 
 # start
 export COMPOSE_PROJECT_NAME=demo

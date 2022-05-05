@@ -1,0 +1,30 @@
+[
+    {
+        "metric_name": "metric_1_total_message",
+        "help": "help information for metric 1 total message",
+        "type": "gauge",
+        "labels": ["hostname", "process"],
+        "values": [
+            {
+                "value": "685",
+                "labels": ["1.1.1.1", "network-1"]
+            },
+            {
+                "value": "145",
+                "labels": ["2.2.2.2", "network2"]
+            }
+        ]
+    },
+    {
+        "metric_name": "metric_1_total_user",
+        "help": "help information for metric 1 total user",
+        "type": "counter",
+        "labels": ["hostname", "process", "database"],
+        "values": [
+            {
+                "value": 10,
+                "labels": ["1.1.1.1", "network-1", "instance-1"]
+            }
+        ]
+    }
+]

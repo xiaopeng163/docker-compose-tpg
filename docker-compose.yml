@@ -8,6 +8,7 @@ networks:
   front-tier:
   back-tier:
 
+
 services:
   cisco_router:
     image: snmp_simulator:latest
@@ -50,7 +51,7 @@ services:
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:latest
     container_name: grafana
     hostname: grafana
     networks:
@@ -66,3 +67,14 @@ services:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
     env_file:
       - ./grafana/config.monitoring
+  json-metric-exporter:
+    image: json_exporter:latest
+    container_name: json-metric-exporter
+    hostname: json-metric-exporter
+    restart: always
+    networks:
+      - back-tier
+    volumes:
+      - ./json_exporter/json/:/root/json/
+    ports:
+      - 9080:5000
