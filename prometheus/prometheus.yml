@@ -16,4 +16,4 @@ scrape_configs:
     metrics_path: /metrics
     static_configs:
       - targets:
-          - json-metric-exporter:9080
+          - json-metric-exporter:5000
