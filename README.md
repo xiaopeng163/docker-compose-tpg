@@ -96,3 +96,8 @@ docker restart telegraf
 ```shell
 ./stop.sh
 ```
+
+
+### Infrastructure model
+
+![Infrastructure model](.infragenie/infrastructure_model.png)
